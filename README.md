@@ -48,7 +48,6 @@ Follow these instructions to set up and run the project locally.
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v16 or later recommended)
 - [Ionic CLI](https://ionicframework.com/docs/cli) installed globally:
   ```bash
   npm install -g @ionic/cli
@@ -61,7 +60,7 @@ Follow these instructions to set up and run the project locally.
 1. **Clone the repository:**
 
    ```bash
-   git clone <repository-url>
+   git clone <https://github.com/youssefoubens/ionic_simple_project.git>
    ```
 
 2. **Navigate to the project directory:**
@@ -91,11 +90,7 @@ Follow these instructions to set up and run the project locally.
 
 ---
 
-## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
-
----
 
 ## Made by Youssef Ouben Said - GLSID2
 
