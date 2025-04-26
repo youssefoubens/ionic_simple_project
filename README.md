@@ -12,7 +12,7 @@ A simple cross-platform mobile app built with the **Ionic Framework** to display
 - [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Dependencies](#dependencies)
-- [License](#license)
+
 
 ---
 
