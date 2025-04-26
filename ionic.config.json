@@ -1,0 +1,8 @@
+{
+  "name": "WeatherApp",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "angular"
+}

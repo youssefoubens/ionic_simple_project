@@ -1,0 +1,97 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Weather by Fedor</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="dark" (click)="addCity()">
+        <ion-icon name ='add'></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content forceOverscroll="false">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pulllingIcon="arrow-dropdown" refreShingspinner="circles"></ion-refresher-content>
+  </ion-refresher>
+  <ion-slides pager="true" #slides (ionSlideWillChange)="cityChanged()"
+  [ngStyle]="
+  { 'background': backgroundImage, 
+    'background-size': backgroundSize
+  }"
+  >
+    <ion-slide *ngFor="let place of entries; let i = index;">
+      <button class="weather__change-units" tappable (click)="changeUnits(i)">{{ getUnitString() }}</button>
+      
+      <div class="weather__invalid-city" *ngIf="!place.weather">
+        Sorry, we couldn't find city: {{ place.val }}
+      </div>
+
+      <div *ngIf="place.weather">
+        <h3 class="weather__city">{{ place.weather.name }}</h3>
+        <p class="weather__description"> {{ place.weather.weather[0]?.description | uppercase }} </p>
+
+        <div class="weather__today" >
+          <span class="weather__today-info">
+            <i class="fas fa-wind"></i>
+            <p>{{ place.weather.wind.speed }} {{ getWindSpeed() }}</p>
+          </span>
+
+          <span class="weather__today-info">
+            <div>
+              <i class="fas fa-sun"></i>
+            </div>
+            <div>
+              <div class="weather__today-sunset">
+                <i class="fas fa-arrow-up"></i>
+                <span>{{ place.weather.sys.sunrise * 1000 | date: 'h:mm a' }}</span>
+              </div>
+              <div class="weather__today-sunrise">
+                <i class="fas fa-arrow-down"></i>
+                <span>{{ place.weather.sys.sunset * 1000 | date: 'h:mm a' }}</span>
+              </div>
+            </div>
+          </span>
+          
+          <span class="weather__today-info">
+            <i class="fas fa-tint"></i>
+            <p>{{ place.weather.main.humidity }}%</p>
+          </span>
+        </div>
+
+        <h2 class="weather__temp">{{ place.weather.main.temp.toFixed() }}°</h2>
+        <span class="weather__maxlow">H:{{ place.weather.main.temp_max.toFixed() }}° L:{{ place.weather.main.temp_min.toFixed() }}°</span>
+
+        <ion-slides class="weather__forecast" [options]="sliderConfig" *ngIf="place.forecast" >
+          <ion-slide class="weather__forecast--list" *ngFor="let fc of place.forecast?.list" >
+            <span class="weather__forecast--list-weekday">{{ fc.dt*1000 | date: 'EEEE' }}</span> <br>
+            <span class="weather__forecast--list-date">{{ fc.dt*1000 | date: 'MMMM d' }} </span> <br>
+            <span class="weather__forecast--list-time">{{ fc.dt*1000 | date: 'hh:mm a' }}</span>
+            <img [src]="getWeatherIcon(fc.weather[0]?.icon)" alt="">
+            <span class="weather__forecast--list-temp">{{ fc.main.temp.toFixed() }}°</span>
+          </ion-slide>
+        </ion-slides>
+      </div>
+
+      <ion-list class="weather__next-days" lines="none">
+        <ion-item class="weather__next-days--info" *ngFor="let day of place.nextDays" >
+          <ion-label>
+            <span>{{ day.date | date: 'EEEE' }}</span>
+          </ion-label>
+          <span class="weather__next-days--max">{{ day.max }}</span>
+          <span class="weather__next-days--min">{{ day.min }}</span>
+        </ion-item>
+      </ion-list>
+      <div>
+        <ion-button class="weather__delete-btn" (click)="removeCity(i)" *ngIf="i != 0" color="warning" fill="outline">
+          <ion-icon name="trash"></ion-icon>
+          Remove {{ place.val }}
+        </ion-button>
+        <ion-button class="weather__delete-btn" (click)="removeAllCities()" *ngIf="entries.length > 1 && i === 0 " color="warning" fill="outline">
+            <ion-icon name="trash"></ion-icon>
+            <span>Remove All Cities</span> 
+        </ion-button>
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>
